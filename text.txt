@@ -1,0 +1,48 @@
+// Nạp module express vào dự án
+import express from "express";
+
+// Khởi tạo một đối tượng app (đại diện cho ứng dụng web của bạn)
+const app = express();
+
+const port = 3000;
+
+app.use(express.json());
+
+app.post("/api/users", (req, res) => {
+  const customer = req.body.customer;
+
+  const nameuser = customer.name;
+  const ageuser = customer.age;
+
+  // Trả về kết quả dưới dạng JSON
+  res.json({ information: `${nameuser}`, age: `${ageuser}` });
+});
+
+// Khởi động server và lắng nghe kết nối
+app.listen(port, () => {
+  console.log(`Server đang chạy tại http://localhost:${port}`);
+});
+
+
+// Cho tôi 1 ví dụ kinh điển cần phải debug
+// Ví dụ: Tính tổng các số từ 1 đến n
+function sum(n) {
+  let total = 0;
+  for (let i = 1; i <= n; i++) {
+    total += i;
+  }
+  return total;
+}
+// Gọi hàm với n = 5
+console.log(sum(5)); // Kết quả mong đợi: 15
+
+// Ví dụ lỗi: Nếu chúng ta vô tình gán total = i thay vì total += i
+function sumError(n) {
+  let total = 0;
+  for (let i = 1; i <= n; i++) {
+    total = i; // Lỗi: gán total bằng i thay vì cộng dồn
+  }
+  return total;
+}
+// Gọi hàm với n = 5
+console.log(sumError(5)); // Kết quả trả về sẽ là 5 thay vì 15, đây là lỗi cần phải debug.
