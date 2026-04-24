@@ -19,16 +19,16 @@
 //   },
 // ];
 
-import connection from "../config/databaseConfig.js";
+import connection from '../config/databaseConfig.js';
 
 const getAllCourses = async () => {
-  const sql = "SELECT * FROM courses";
+  const sql = 'SELECT * FROM courses';
   const [rows] = await connection.execute(sql);
   return rows;
 };
 
 const getCourseById = async (id) => {
-  const sql = "SELECT * FROM courses WHERE id = ?";
+  const sql = 'SELECT * FROM courses WHERE id = ?';
   const [rows] = await connection.execute(sql, [id]);
 
   if (rows.length === 0) return null;
@@ -37,20 +37,20 @@ const getCourseById = async (id) => {
 };
 
 const createCourse = async (name, description, img) => {
-  const sql = "INSERT INTO courses (name, description, img) VALUES (?, ?, ?)";
+  const sql = 'INSERT INTO courses (name, description, img) VALUES (?, ?, ?)';
   const [result] = await connection.execute(sql, [name, description, img]);
   return { id: result.insertId, name, description, img };
 };
 
 const removeCourse = async (id) => {
-  const sql = "DELETE FROM courses WHERE id = ?";
+  const sql = 'DELETE FROM courses WHERE id = ?';
   const [result] = await connection.execute(sql, [id]);
   return result.affectedRows > 0;
 };
 
 const updateCourse = async (id, name, description, img) => {
   const sql =
-    "UPDATE courses SET name = ?, description = ?, img = ? WHERE id = ?";
+    'UPDATE courses SET name = ?, description = ?, img = ? WHERE id = ?';
   const [result] = await connection.execute(sql, [name, description, img, id]);
   return result.affectedRows > 0;
 };

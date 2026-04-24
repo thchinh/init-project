@@ -1,41 +1,41 @@
 // Nạp module express vào dự án
-import express from "express";
-import morgan from "morgan";
-import { engine } from "express-handlebars";
-import path from "path";
-import appRouters from "./routes/index.js";
-import methodOverride from "method-override";
+import express from 'express';
+import morgan from 'morgan';
+import { engine } from 'express-handlebars';
+import path from 'path';
+import appRouters from './routes/index.js';
+import methodOverride from 'method-override';
 
 const app = express();
 
-const dirName = path.join(path.resolve(), "public");
-app.use(express.static(path.join(path.resolve(), "public")));
+const dirName = path.join(path.resolve(), 'public');
+app.use(express.static(path.join(path.resolve(), 'public')));
 
 // override with POST having ?_method=DELETE
-app.use(methodOverride("_method"));
+app.use(methodOverride('_method'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 1. Cấu hình Custom cho Handlebars
 app.engine(
-  "hbs",
+  'hbs',
   engine({
-    defaultLayout: "main", // Đặt file main.handlebars làm bộ khung mặc định (có thể đổi tên file mặc định)
-    layoutsDir: "./src/views/layouts", // Đặt thư mục chứa file layout là ./views/layouts
+    defaultLayout: 'main', // Đặt file main.handlebars làm bộ khung mặc định (có thể đổi tên file mặc định)
+    layoutsDir: './src/views/layouts', // Đặt thư mục chứa file layout là ./views/layouts
     helpers: {
       checkAge: (age) => {
-        return age >= 18 ? "Đủ tuổi" : "Chưa đủ tuổi";
+        return age >= 18 ? 'Đủ tuổi' : 'Chưa đủ tuổi';
       },
     },
-    extname: ".hbs", // Đặt phần mở rộng của file giao diện là .hbs (mặc định là .handlebars)
-  }),
+    extname: '.hbs', // Đặt phần mở rộng của file giao diện là .hbs (mặc định là .handlebars)
+  })
 );
 
 // 2. Báo cho Express biết hãy dùng Handlebars làm công cụ render giao diện
-app.set("view engine", "hbs");
+app.set('view engine', 'hbs');
 
 // Báo cho Express biết thư mục chứa file giao diện tên là gì
-app.set("views", "./src/views");
+app.set('views', './src/views');
 
 app.use(appRouters);
 

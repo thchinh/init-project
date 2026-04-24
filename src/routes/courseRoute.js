@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   getAllCourses,
   getCourse,
@@ -8,25 +8,25 @@ import {
   manageCourses,
   removeCourse,
   updateCourse,
-} from "../controllers/courseController.js";
+} from '../controllers/courseController.js';
 
 const router = Router();
 
 /// =============== Render view =============== ///
 // /course (GET) => lấy tất cả khóa học
-router.get("/", getAllCourses);
+router.get('/', getAllCourses);
 
-router.get("/manage", manageCourses);
-router.get("/add", showFormAddCourse);
+router.get('/manage', manageCourses);
+router.get('/add', showFormAddCourse);
 
 // /course/:id (GET) => lấy chi tiết khóa học theo id
-router.get("/:id/update", showFormUpdateCourse);
-router.get("/:id", getCourse);
+router.get('/:id/update', showFormUpdateCourse);
+router.get('/:id', getCourse);
 
 // =============== Xử lý logic =============== ///
 // /course (POST) => thêm mới khóa học
-router.post("/", createCourse);
-router.delete("/:id", removeCourse);
-router.put("/:id", updateCourse);
+router.post('/', createCourse);
+router.delete('/:id', removeCourse);
+router.put('/:id', updateCourse);
 
 export default router;

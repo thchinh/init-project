@@ -1,6 +1,6 @@
 // src/config/database.js
-import mysql from "mysql2/promise"; // Lưu ý: Bắt buộc có chữ /promise
-import "dotenv/config"; // Tự động đọc file .env
+import mysql from 'mysql2/promise'; // Lưu ý: Bắt buộc có chữ /promise
+import 'dotenv/config'; // Tự động đọc file .env
 
 // Tạo một Pool kết nối thay vì kết nối đơn lẻ
 const connection = await mysql.createPool({
@@ -13,6 +13,6 @@ const connection = await mysql.createPool({
   queueLimit: 0,
 });
 
-console.log("🚀 Đã khởi tạo Pool Connection tới MySQL thành công!");
+console.log('🚀 Đã khởi tạo Pool Connection tới MySQL thành công!');
 
 export default connection;
