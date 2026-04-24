@@ -1,0 +1,18 @@
+<form method="post" action="/courses/{{course.id}}?_method=PUT">
+    <div class="mb-3">
+        <label for="courseName" class="form-label">Tên khóa học</label>
+        <input type="text" class="form-control" id="courseName" aria-describedby="courseNameHelp" name="name"
+            value="{{course.name}}">
+        <div id="courseNameHelp" class="form-text">We'll never share your course name with anyone else.</div>
+    </div>
+    <div class="mb-3">
+        <label for="courseDescription" class="form-label">Mô tả</label>
+        <input type="text" class="form-control" id="courseDescription" name="description"
+            value="{{course.description}}">
+    </div>
+    <div class="mb-3">
+        <label for="courseImage" class="form-label">Hình ảnh</label>
+        <input type="text" class="form-control" id="courseImage" name="img" value="{{course.img}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
