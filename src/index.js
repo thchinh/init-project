@@ -5,11 +5,25 @@ import { engine } from 'express-handlebars';
 import path from 'path';
 import appRouters from './routes/index.js';
 import methodOverride from 'method-override';
+import connectDB from './config/databaseConfig.js';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import 'dotenv/config';
 
 const app = express();
 
 const dirName = path.join(path.resolve(), 'public');
 app.use(express.static(path.join(path.resolve(), 'public')));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false, // Không lưu session lại nếu không có sự thay đổi
+    saveUninitialized: true, // Lưu session ngay cả khi chưa được khởi tạo
+  })
+);
+app.use(cookieParser());
+app.use(morgan('combined'));
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
@@ -39,6 +53,7 @@ app.set('views', './src/views');
 
 app.use(appRouters);
 
+connectDB();
 // Khởi động server và lắng nghe kết nối
 app.listen(3000, () => {
   console.log(`Server đang chạy tại http://localhost:${3000}`);

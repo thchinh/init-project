@@ -1,58 +1,61 @@
-// const courses = [
-//   {
-//     id: 1,
-//     name: "NodeJS",
-//     description: "Khóa học NodeJS từ cơ bản đến nâng cao",
-//     img: "https://cdn.sanity.io/images/uu46dekc/production/8399d1ec2a8250899e5ff0052b99cfb1e2c01ab1-900x900.png?auto=format&fit=max&q=75&w=900",
-//   },
-//   {
-//     id: 2,
-//     name: "ReactJS",
-//     description: "Khóa học ReactJS từ cơ bản đến nâng cao",
-//     img: "https://cdn.sanity.io/images/uu46dekc/production/565b6e0feb90a008264979c9cec6c7b24747d24e-900x900.png?auto=format&fit=max&q=75&w=900",
-//   },
-//   {
-//     id: 3,
-//     name: "SB - Lập trình Scratch cơ bản dành cho thiếu nhi",
-//     description: "Khóa học Scratch từ cơ bản đến nâng cao",
-//     img: "https://cdn.sanity.io/images/uu46dekc/production/66b13ea9119e9fadeafd73c398b191edbabdd8c7-900x900.png?auto=format&fit=max&q=75&w=900",
-//   },
-// ];
+import mongoose from 'mongoose';
+import {
+  mongooseToObject,
+  mongooseToObjects,
+} from '../utils/mongooseToObject.js';
 
-import connection from '../config/databaseConfig.js';
+const courseModel = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    img: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Course = mongoose.model('Course', courseModel);
 
 const getAllCourses = async () => {
-  const sql = 'SELECT * FROM courses';
-  const [rows] = await connection.execute(sql);
-  return rows;
+  const courses = await Course.find().lean();
+  return mongooseToObjects(courses);
 };
 
 const getCourseById = async (id) => {
-  const sql = 'SELECT * FROM courses WHERE id = ?';
-  const [rows] = await connection.execute(sql, [id]);
-
-  if (rows.length === 0) return null;
-
-  return rows[0];
+  const course = await Course.findById(new mongoose.Types.ObjectId(id)).lean();
+  return mongooseToObject(course);
 };
 
 const createCourse = async (name, description, img) => {
-  const sql = 'INSERT INTO courses (name, description, img) VALUES (?, ?, ?)';
-  const [result] = await connection.execute(sql, [name, description, img]);
-  return { id: result.insertId, name, description, img };
+  const course = new Course({ name, description, img });
+  await course.save();
+  return mongooseToObject(course);
 };
 
 const removeCourse = async (id) => {
-  const sql = 'DELETE FROM courses WHERE id = ?';
-  const [result] = await connection.execute(sql, [id]);
-  return result.affectedRows > 0;
+  const course = await Course.findByIdAndDelete(
+    new mongoose.Types.ObjectId(id)
+  ).lean();
+  return mongooseToObject(course) !== null;
 };
 
 const updateCourse = async (id, name, description, img) => {
-  const sql =
-    'UPDATE courses SET name = ?, description = ?, img = ? WHERE id = ?';
-  const [result] = await connection.execute(sql, [name, description, img, id]);
-  return result.affectedRows > 0;
+  const course = await Course.findByIdAndUpdate(
+    new mongoose.Types.ObjectId(id),
+    { name, description, img }
+  ).lean();
+  return mongooseToObject(course) !== null;
 };
 
 export {

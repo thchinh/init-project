@@ -15,10 +15,15 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-handlebars": "^9.0.1",
+    "express-session": "^1.19.0",
+    "jsonwebtoken": "^9.0.3",
     "method-override": "^3.0.0",
+    "mongoose": "^9.5.0",
     "morgan": "^1.10.1",
     "mysql2": "^3.22.2"
   },

@@ -10,9 +10,7 @@ const showFormUpdateCourse = async (req, res) => {
   if (!id) {
     return res.status(400).send('Thiếu id khóa học');
   }
-  const parseId = parseInt(id);
-  if (isNaN(parseId)) return res.status(400).send('id khóa học phải là một số');
-  const course = await courseModel.getCourseById(parseId);
+  const course = await courseModel.getCourseById(id);
   if (!course) {
     return res.status(404).send('Khóa học không tồn tại');
   }
@@ -36,10 +34,7 @@ const getCourse = async (req, res) => {
     return res.status(400).send('Thiếu id khóa học');
   }
 
-  const parseId = parseInt(id);
-  if (isNaN(parseId)) return res.status(400).send('id khóa học phải là một số');
-
-  const course = await courseModel.getCourseById(parseId);
+  const course = await courseModel.getCourseById(id);
   if (!course) {
     return res.status(404).send('Khóa học không tồn tại');
   }
@@ -63,10 +58,7 @@ const removeCourse = async (req, res) => {
 
   if (!id) return res.status(400).send('Thiếu id khóa học');
 
-  const parseId = parseInt(id);
-  if (isNaN(parseId)) return res.status(400).send('id khóa học phải là một số');
-
-  const isSuccess = await courseModel.removeCourse(parseId);
+  const isSuccess = await courseModel.removeCourse(id);
   if (!isSuccess) return res.status(404).send('Khóa học không tồn tại');
 
   res.redirect('/courses');
@@ -78,19 +70,11 @@ const updateCourse = async (req, res) => {
 
   if (!id) return res.status(400).send('Thiếu id khóa học');
 
-  const parseId = parseInt(id);
-  if (isNaN(parseId)) return res.status(400).send('id khóa học phải là một số');
-
   if (!name || !description || !img) {
     return res.status(400).send('Thiếu thông tin khóa học');
   }
 
-  const isSuccess = await courseModel.updateCourse(
-    parseId,
-    name,
-    description,
-    img
-  );
+  const isSuccess = await courseModel.updateCourse(id, name, description, img);
   if (!isSuccess) return res.status(404).send('Khóa học không tồn tại');
 
   res.redirect('/courses');
