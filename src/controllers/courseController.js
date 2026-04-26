@@ -23,8 +23,56 @@ const getAllCourses = async (req, res) => {
 };
 
 const manageCourses = async (req, res) => {
-  const courses = await courseModel.getAllCourses();
-  res.render('course/admin/manage', { courses });
+  const { sortBy, sortOrder, searchText, pageIndex, pageSize } = req.query;
+  const validSortOrders = ['asc', 'desc'];
+  const validSortFields = ['name']; // Các trường hợp hợp lệ để sắp xếp
+
+  let sortField = 'name'; // Mặc định sắp xếp theo tên
+  let sortDirection = 'asc'; // Mặc định sắp xếp tăng dần
+
+  let currentPage = 1; // Mặc định trang hiện tại
+  let currentPageSize = 5; // Mặc định số lượng bản ghi trên mỗi trang
+
+  if (validSortFields.includes(sortBy)) {
+    sortField = sortBy;
+  }
+
+  if (validSortOrders.includes(sortOrder)) {
+    sortDirection = sortOrder;
+  }
+
+  if (pageIndex && parseInt(pageIndex) > 0) {
+    currentPage = parseInt(pageIndex);
+  }
+
+  if (pageSize && parseInt(pageSize) > 0) {
+    currentPageSize = parseInt(pageSize);
+  }
+
+  const totalCourses = await courseModel.getAllCourses(
+    sortField,
+    sortDirection,
+    searchText
+  );
+  const totalPage = Math.ceil(totalCourses.length / currentPageSize);
+
+  const courses = await courseModel.getAllCourses(
+    sortField,
+    sortDirection,
+    searchText,
+    currentPage,
+    currentPageSize
+  );
+
+  res.render('course/admin/manage', {
+    courses,
+    sortBy: sortField,
+    sortOrder: sortDirection,
+    searchText: searchText || '',
+    totalPage,
+    pageIndex: currentPage,
+    pageSize: currentPageSize,
+  });
 };
 
 const getCourse = async (req, res) => {

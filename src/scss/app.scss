@@ -4,3 +4,11 @@
     height: 400px;
   }
 }
+
+.hover-cursor {
+  cursor: pointer;
+}
+
+.hover-cursor:hover {
+  color: #0d6efd;
+}
