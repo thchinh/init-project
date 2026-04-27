@@ -1,61 +1,110 @@
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Tên khóa học</th>
-            <th scope="col">Mô tả</th>
-            <th scope="col">Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each courses}}
-        <tr>
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.name}}</td>
-            <td>{{this.description}}</td>
-            <td>
-                <button type="button" class="btn btn-danger btnDeleteCourse" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal" data-course-id="{{this.id}}">Xóa</button>
-                <a href="/courses/{{this.id}}/update" class="btn btn-warning">Sửa</a>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form id="formDeleteCourse" method="POST">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Bạn có chắc chắn muốn xóa khóa học này không?
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger">Xác nhận</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                </div>
+<div>
+    <h1 class="mb-4">Quản lý khóa học</h1>
+    <div class="mb-3">
+        <div>
+            <div>
+                <a href="/courses/add" class="btn btn-primary">Thêm khóa học mới</a>
+            </div>
+            <div>
+                <form class="d-flex mt-3" method="GET" action="/courses/manage">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm khóa học" name="searchText"
+                        value="{{searchText}}">
+                    <button class="btn btn-outline-success text-nowrap" type="submit">Tìm kiếm</button>
+                </form>
             </div>
         </div>
-    </form>
-</div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">
+                        <form action="" id="sortForm">
+                            {{#if searchText}}<input type="hidden" name="searchText" value="{{searchText}}">{{/if}}
+                            {{#if pageSize}}<input type="hidden" name="pageSize" value="{{pageSize}}">{{/if}}
+                            {{#if sortOrder}}<input type="hidden" name="sortOrder"
+                                value="{{#if (eq sortOrder 'asc')}}desc{{else}}asc{{/if}}">{{/if}}
+                            {{#if sortBy}}<input type="hidden" name="sortBy" value="{{sortBy}}">{{/if}}
+                            <div>
+                                Tên khóa học <i class="bi bi-arrow-{{#if (eq sortOrder 'asc')}}up{{else}}down{{/if}}"
+                                    onclick="document.getElementById('sortForm').submit()" style="cursor: pointer;"></i>
+                            </div>
+                        </form>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
+                    </th>
+                    <th scope=" col">Mô tả
+                    </th>
+                    <th scope="col">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each courses}}
+                <tr>
+                    <th scope="row">{{this.id}}</th>
+                    <td>{{this.name}}</td>
+                    <td>{{this.description}}</td>
+                    <td class="text-nowrap">
+                        <button type="button" class="btn btn-danger btnDeleteCourse" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" data-course-id="{{this.id}}">Xóa</button>
+                        <a href="/courses/{{this.id}}/update" class="btn btn-warning">Sửa</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        <div>
+            <form action="">
+                <div class="input-group mb-3" style="width: 70px;">
+                    <select class="form-select" id="pageSizeSelect" name="pageSize" onchange="this.form.submit()">
+                        <option value="5" {{#if (eq pageSize 5)}}selected{{/if}}>5</option>
+                        <option value="10" {{#if (eq pageSize 10)}}selected{{/if}}>10</option>
+                    </select>
+                </div>
+                {{#if searchText}}<input type="hidden" name="searchText" value="{{searchText}}">{{/if}}
+                {{#if sortBy}}<input type="hidden" name="sortBy" value="{{sortBy}}">{{/if}}
+                {{#if sortOrder}}<input type="hidden" name="sortOrder" value="{{sortOrder}}">{{/if}}
+            </form>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    {{{generatePagination totalPage pageIndex pageSize searchText sortBy sortOrder}}}
+                </ul>
+            </nav>
+        </div>
 
-        const btnDeleteCourse = document.querySelectorAll(".btnDeleteCourse");
-        const formDeleteCourse = document.querySelector("#formDeleteCourse");
+    </div>
 
-        btnDeleteCourse.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                const courseId = btn.getAttribute("data-course-id");
-                formDeleteCourse.setAttribute("action", `/courses/${courseId}?_method=DELETE`);
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="formDeleteCourse" method="POST">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Bạn có chắc chắn muốn xóa khóa học này không?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Xác nhận</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const btnDeleteCourse = document.querySelectorAll(".btnDeleteCourse");
+            const formDeleteCourse = document.querySelector("#formDeleteCourse");
+
+            btnDeleteCourse.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const courseId = btn.getAttribute("data-course-id");
+                    formDeleteCourse.setAttribute("action", `/courses/${courseId}?_method=DELETE`);
+                });
             });
         });
-    });
-</script>
+    </script>

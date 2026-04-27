@@ -8,6 +8,7 @@ import methodOverride from 'method-override';
 import connectDB from './config/databaseConfig.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import handlebarsHelpers from './helpers/handlebarsHelper.js';
 import 'dotenv/config';
 
 const app = express();
@@ -36,11 +37,7 @@ app.engine(
   engine({
     defaultLayout: 'main', // Đặt file main.handlebars làm bộ khung mặc định (có thể đổi tên file mặc định)
     layoutsDir: './src/views/layouts', // Đặt thư mục chứa file layout là ./views/layouts
-    helpers: {
-      checkAge: (age) => {
-        return age >= 18 ? 'Đủ tuổi' : 'Chưa đủ tuổi';
-      },
-    },
+    helpers: handlebarsHelpers,
     extname: '.hbs', // Đặt phần mở rộng của file giao diện là .hbs (mặc định là .handlebars)
   })
 );
@@ -56,5 +53,5 @@ app.use(appRouters);
 connectDB();
 // Khởi động server và lắng nghe kết nối
 app.listen(3000, () => {
-  console.log(`Server đang chạy tại http://localhost:${3000}`);
+  console.log(`Server đang chạy tại http://localhost:3000`);
 });
