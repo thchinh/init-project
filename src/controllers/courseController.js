@@ -1,4 +1,8 @@
 import * as courseModel from '../models/courseModel.js';
+import path from 'path';
+import fs from 'fs';
+import imageService from '../services/imageService.js';
+import { IMAGE_PATH } from '../constants/pathConstant.js';
 
 const showFormAddCourse = (req, res) => {
   res.render('course/add');
@@ -91,14 +95,21 @@ const getCourse = async (req, res) => {
 };
 
 const createCourse = async (req, res) => {
-  const { name, description, img } = req.body;
+  const { name, description } = req.body;
 
-  if (!name || !description || !img) {
+  if (!name || !description) {
     return res.status(400).send('Thiếu thông tin khóa học');
   }
 
-  const newCourse = await courseModel.createCourse(name, description, img);
-  res.redirect('/courses');
+  if (!req.file) {
+    return res.status(400).send('Please select an image to upload.');
+  }
+
+  // Lưu ảnh và lấy tên file đã lưu trên server
+  const imgUrl = await imageService.handleSaveImage(req.file);
+
+  const newCourse = await courseModel.createCourse(name, description, imgUrl);
+  res.redirect('/courses/manage');
 };
 
 const removeCourse = async (req, res) => {
@@ -106,26 +117,62 @@ const removeCourse = async (req, res) => {
 
   if (!id) return res.status(400).send('Thiếu id khóa học');
 
+  const course = await courseModel.getCourseById(id);
+  if (!course) return res.status(404).send('Khóa học không tồn tại');
+
   const isSuccess = await courseModel.removeCourse(id);
+
+  // Xóa ảnh liên quan đến khóa học nếu tồn tại
+  if (isSuccess) {
+    await imageService.handleRemoveImage(course.img);
+  }
+
   if (!isSuccess) return res.status(404).send('Khóa học không tồn tại');
 
-  res.redirect('/courses');
+  res.redirect('/courses/manage');
 };
 
 const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { name, description, img } = req.body;
+  const { name, description } = req.body;
 
   if (!id) return res.status(400).send('Thiếu id khóa học');
 
-  if (!name || !description || !img) {
+  if (!name || !description) {
     return res.status(400).send('Thiếu thông tin khóa học');
   }
 
-  const isSuccess = await courseModel.updateCourse(id, name, description, img);
-  if (!isSuccess) return res.status(404).send('Khóa học không tồn tại');
+  if (!req.file) {
+    return res.status(400).send('Please select an image to upload.');
+  }
 
-  res.redirect('/courses');
+  const getCourse = await courseModel.getCourseById(id);
+  if (!getCourse) {
+    return res.status(404).send('Khóa học không tồn tại');
+  }
+
+  const isOldImage = await imageService.isExistImage(req.file.originalname);
+  let imgUrl = getCourse.img; // Giữ nguyên ảnh cũ nếu không có ảnh mới
+
+  if (!isOldImage) {
+    // Xóa ảnh cũ nếu tồn tại
+    if (getCourse.img) {
+      await imageService.handleRemoveImage(getCourse.img);
+    }
+    // Lưu ảnh mới và lấy tên file đã lưu trên server
+    imgUrl = await imageService.handleSaveImage(req.file);
+  }
+
+  const isSuccess = await courseModel.updateCourse(
+    id,
+    name,
+    description,
+    imgUrl
+  );
+
+  if (!isSuccess) return res.status(404).send('Failed to update course');
+
+  res.redirect('/courses/manage');
 };
 
 export {

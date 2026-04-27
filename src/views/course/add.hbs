@@ -1,4 +1,4 @@
-<form method="post" action="/courses">
+<form method="post" action="/courses" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="courseName" class="form-label">Tên khóa học</label>
         <input type="text" class="form-control" id="courseName" aria-describedby="courseNameHelp" name="name">
@@ -10,7 +10,7 @@
     </div>
     <div class="mb-3">
         <label for="courseImage" class="form-label">Hình ảnh</label>
-        <input type="text" class="form-control" id="courseImage" name="img">
+        <input type="file" class="form-control" id="courseImage" name="img">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

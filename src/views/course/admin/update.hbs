@@ -1,4 +1,4 @@
-<form method="post" action="/courses/{{course.id}}?_method=PUT">
+<form method="post" action="/courses/{{course.id}}?_method=PUT" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="courseName" class="form-label">Tên khóa học</label>
         <input type="text" class="form-control" id="courseName" aria-describedby="courseNameHelp" name="name"
@@ -12,7 +12,31 @@
     </div>
     <div class="mb-3">
         <label for="courseImage" class="form-label">Hình ảnh</label>
-        <input type="text" class="form-control" id="courseImage" name="img" value="{{course.img}}">
+        <input type="file" class="form-control" id="courseImage" name="img" value="{{course.img}}">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        async function loadURLToInput(url, fileName) {
+            // 1. Fetch image and convert to Blob
+            const response = await fetch(url);
+            const blob = await response.blob();
+
+            // 2. Create a File object
+            const file = new File([blob], fileName, { type: blob.type });
+
+            // 3. Use DataTransfer to set the input's files
+            const container = new DataTransfer();
+            container.items.add(file);
+
+            const fileInput = document.getElementById('courseImage');
+            fileInput.files = container.files; // Successfully loaded
+        }
+
+        // Load the current image into the file input on page load
+        loadURLToInput(`/images/courses/{{course.img}}`, '{{course.img}}');
+    });
+</script>

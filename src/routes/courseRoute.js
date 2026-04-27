@@ -9,6 +9,7 @@ import {
   removeCourse,
   updateCourse,
 } from '../controllers/courseController.js';
+import upload from '../middlewares/uploadMiddleware.js';
 
 import verifyTokenMiddleware from '../middlewares/verifyTokenMiddleware.js';
 import authorizeMiddleware from '../middlewares/authorizeMiddleware.js';
@@ -47,6 +48,7 @@ router.post(
   '/',
   verifyTokenMiddleware,
   authorizeMiddleware('admin'),
+  upload.single('img'), // Middleware xử lý upload file, 'img' là tên trường trong form
   createCourse
 );
 router.delete(
@@ -59,6 +61,7 @@ router.put(
   '/:id',
   verifyTokenMiddleware,
   authorizeMiddleware('admin'),
+  upload.single('img'), // Middleware xử lý upload file, 'img' là tên trường trong form
   updateCourse
 );
 
