@@ -3,4 +3,12 @@
   height: 400px;
 }
 
+.hover-cusor {
+  cursor: pointer;
+}
+
+.hover-cusor:hover {
+  color: #0d6efd;
+}
+
 /*# sourceMappingURL=style.css.map */

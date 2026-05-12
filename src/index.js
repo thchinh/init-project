@@ -9,6 +9,7 @@ import connectDB from './config/databaseConfig.js';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import 'dotenv/config';
+import helperHandlebars from './helpers/helperHandlebars.js';
 
 const app = express();
 
@@ -36,11 +37,7 @@ app.engine(
   engine({
     defaultLayout: 'main', // Đặt file main.handlebars làm bộ khung mặc định (có thể đổi tên file mặc định)
     layoutsDir: './src/views/layouts', // Đặt thư mục chứa file layout là ./views/layouts
-    helpers: {
-      checkAge: (age) => {
-        return age >= 18 ? 'Đủ tuổi' : 'Chưa đủ tuổi';
-      },
-    },
+    helpers: helperHandlebars,
     extname: '.hbs', // Đặt phần mở rộng của file giao diện là .hbs (mặc định là .handlebars)
   })
 );

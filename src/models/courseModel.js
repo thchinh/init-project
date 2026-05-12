@@ -27,8 +27,30 @@ const courseModel = new mongoose.Schema(
 
 const Course = mongoose.model('Course', courseModel);
 
-const getAllCourses = async () => {
-  const courses = await Course.find().lean();
+const getAllCourses = async (
+  sortField,
+  sortDirection,
+  searchText,
+  pageSize,
+  pageIndex
+) => {
+  const query = Course.find().lean();
+
+  if (searchText) {
+    query.find({ name: { $regex: searchText, $options: 'i' } });
+  }
+
+  if (sortField && sortDirection) {
+    query.sort({ [sortField]: sortDirection === 'asc' ? 1 : -1 });
+  }
+
+  if (pageIndex && pageSize) {
+    const skip = (pageIndex - 1) * pageSize;
+    query.skip(skip).limit(pageSize);
+  }
+
+  const courses = await query.exec();
+
   return mongooseToObjects(courses);
 };
 
@@ -58,10 +80,21 @@ const updateCourse = async (id, name, description, img) => {
   return mongooseToObject(course) !== null;
 };
 
+const countCourses = async (searchText) => {
+  const query = Course.countDocuments().lean();
+
+  if (searchText) {
+    query.countDocuments({ name: { $regex: searchText, $options: 'i' } });
+  }
+
+  return await query.countDocuments();
+};
+
 export {
   getAllCourses,
   getCourseById,
   createCourse,
   removeCourse,
   updateCourse,
+  countCourses,
 };

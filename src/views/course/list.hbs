@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
     {{#each courses}}
     <div class="col">
         <a href="/courses/{{this.id}}" class="text-decoration-none text-dark">
-            <div class="card">
-                <img src="{{this.img}}" class="card-img-top" alt="{{this.name}}">
+            <div class="card h-100">
+                <img src="/images/uploads/courses/{{this.img}}" class="card-img-top" alt="{{this.name}}">
                 <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
                     <p class="card-text">{{this.description}}</p>

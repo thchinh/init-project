@@ -1,8 +1,26 @@
+<h1>Quản lý khóa học</h1>
+<form action="" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Tìm kiếm khóa học..." name="searchText"
+            value="{{searchText}}">
+        <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+    </div>
+</form>
+
 <table class="table table-striped table-hover">
     <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Tên khóa học</th>
+            <th scope="col">
+                <form action="" method="get" id="sortForm">
+                    <input hidden type="text" value="{{sortBy}}" name="sortBy">
+                    <input hidden type="text" value="{{#if (eq sortOrder 'asc')}}desc{{else}}asc{{/if}}"
+                        name="sortOrder">
+                    <input hidden type="text" value="{{searchText}}" name="searchText">
+                    Tên khóa học <i class="bi bi-arrow-{{#if (eq sortOrder 'asc')}}up{{else}}down{{/if}} hover-cusor"
+                        onclick="document.getElementById('sortForm').submit()"></i>
+                </form>
+            </th>
             <th scope="col">Mô tả</th>
             <th scope="col">Hành động</th>
         </tr>
@@ -22,6 +40,14 @@
         {{/each}}
     </tbody>
 </table>
+
+<div>
+    <nav aria-label="Page navigation example" class="d-flex justify-content-end">
+        <ul class="pagination">
+            {{{generatePagination totalPages pageIndex pageSize searchText sortBy sortOrder}}}
+        </ul>
+    </nav>
+</div>
 
 
 <!-- Modal -->

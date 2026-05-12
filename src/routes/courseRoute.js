@@ -9,6 +9,7 @@ import {
   removeCourse,
   updateCourse,
 } from '../controllers/courseController.js';
+import uploadMiddleware from '../middlewares/uploadMiddleware.js';
 
 import verifyTokenMiddleware from '../middlewares/verifyTokenMiddleware.js';
 import authorizeMiddleware from '../middlewares/authorizeMiddleware.js';
@@ -47,6 +48,7 @@ router.post(
   '/',
   verifyTokenMiddleware,
   authorizeMiddleware('admin'),
+  uploadMiddleware.single('img'),
   createCourse
 );
 router.delete(
@@ -59,6 +61,7 @@ router.put(
   '/:id',
   verifyTokenMiddleware,
   authorizeMiddleware('admin'),
+  uploadMiddleware.single('img'),
   updateCourse
 );
 
