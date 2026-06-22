@@ -17,6 +17,17 @@ const userSchema = new mongoose.Schema(
       ref: 'Role',
       required: true,
     },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    refreshToken: {
+      type: String,
+    },
+    refreshTokenExpiry: {
+      type: Date,
+    },
   },
   {
     timestamps: true, // Tự động thêm createdAt và updatedAt
@@ -25,14 +36,15 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model('User', userSchema);
 
-const createUser = async (username, password, role) => {
+const createUser = async (username, password, role, email) => {
   const newUser = new User({
     username,
     password,
     role: new mongoose.Types.ObjectId(role),
+    email,
   });
   await newUser.save();
-  return mongooseToObject(newUser);
+  return mongooseToObject(newUser.toObject());
 };
 
 const getUserByUsername = async (username) => {
@@ -41,12 +53,34 @@ const getUserByUsername = async (username) => {
   );
 };
 
-const updateUser = async (id, username, role) => {
+const getUserById = async (id) => {
+  return mongooseToObject(
+    await User.findById(new mongoose.Types.ObjectId(id)).populate('role').lean()
+  );
+};
+
+const updateUser = async (id, username, role, email) => {
   const user = await User.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {
     username,
     role: new mongoose.Types.ObjectId(role),
+    email,
   }).lean();
   return mongooseToObject(user) !== null;
 };
 
-export { createUser, getUserByUsername, updateUser };
+const updateRefreshToken = async (id, refreshToken) => {
+  const refreshTokenExpiry = new Date();
+  refreshTokenExpiry.setDate(refreshTokenExpiry.getDate() + 7); // Set expiry to 7 days from now
+  await User.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {
+    refreshToken,
+    refreshTokenExpiry,
+  });
+};
+
+export {
+  createUser,
+  getUserByUsername,
+  getUserById,
+  updateUser,
+  updateRefreshToken,
+};

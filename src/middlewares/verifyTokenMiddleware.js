@@ -14,6 +14,16 @@ const verifyTokenMiddleware = (req, res, next) => {
     req.userRole = decoded.role;
     next();
   } catch (err) {
+    // Check if the failure is explicitly due to expiration
+    if (err.name === 'TokenExpiredError') {
+      // Use refresh token to get new access token
+
+      return res.status(401).json({
+        message: 'Token expired, please refresh your token',
+        errorCode: 'TOKEN_EXPIRED',
+      });
+    }
+
     return res.redirect('/auth/login');
   }
 };

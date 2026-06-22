@@ -10,19 +10,25 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import 'dotenv/config';
 import helperHandlebars from './helpers/helperHandlebars.js';
+import cors from 'cors';
+import { generateRefreshToken } from './services/tokenService.js';
 
 const app = express();
 
 const dirName = path.join(path.resolve(), 'public');
 app.use(express.static(path.join(path.resolve(), 'public')));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false, // Không lưu session lại nếu không có sự thay đổi
-    saveUninitialized: true, // Lưu session ngay cả khi chưa được khởi tạo
-  })
-);
+// app.use(
+//   session({
+//     secret: process.env.SESSION_SECRET,
+//     resave: false, // Không lưu session lại nếu không có sự thay đổi
+//     saveUninitialized: true, // Lưu session ngay cả khi chưa được khởi tạo
+//   })
+// );
+
+// Config cors
+app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
+
 app.use(cookieParser());
 app.use(morgan('combined'));
 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo từ Hệ thống</title>
+    <style>
+        /* RESET CSS CHO EMAIL */
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            background-color: #f4f4f4;
+        }
+
+        /* KIỂU DÁNG CHUNG */
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* MEDIA QUERIES CHO ĐIỆN THOẠI (RESPONSIVE) */
+        @media screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+                margin: auto !important;
+            }
+
+            .fluid-img {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            .button-td,
+            .button-a {
+                width: 100% !important;
+                text-align: center !important;
+            }
+
+            .content-padding {
+                padding: 20px 15px !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0; background-color: #f4f4f4;">
+
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td align="center" style="padding: 40px 10px 40px 10px;">
+
+                <table border="0" cellpadding="0" cellspacing="0" width="600" class="email-container"
+                    style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+
+                    <tr>
+                        <td align="center" style="background-color: #007BFF; padding: 30px 20px;">
+                            <h1
+                                style="color: #ffffff; font-family: Arial, sans-serif; font-size: 24px; margin: 0; letter-spacing: 1px;">
+                                HỆ THỐNG KHÓA HỌC NODEJS
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="content-padding"
+                            style="padding: 40px 30px; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; color: #333333;">
+
+                            <p style="margin: 0 0 20px 0; font-size: 18px;">
+                                Xin chào <strong>{{username}}</strong>,
+                            </p>
+
+                            <p style="margin: 0 0 20px 0;">
+                                Chào mừng bạn đã đến với hệ thống khóa học NodeJS của chúng tôi. Tài khoản của bạn đã
+                                được thiết lập
+                                thành công. Vui lòng nhấn vào nút bên dưới để đăng nhập và bắt đầu trải nghiệm ngay hôm
+                                nay.
+                            </p>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 30px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <table border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td align="center" class="button-td"
+                                                    style="border-radius: 4px; background-color: #28A745;">
+                                                    <a href="https://localhost:3000/login" class="button-a"
+                                                        target="_blank"
+                                                        style="font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none; border-radius: 4px; padding: 12px 30px; border: 1px solid #28A745; display: inline-block;">
+                                                        ĐĂNG NHẬP NGAY
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0;">Trân trọng,<br><strong>Đội ngũ phát triển</strong></p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center"
+                            style="background-color: #f8f9fa; padding: 20px; font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; color: #888888; border-top: 1px solid #eeeeee;">
+                            <p style="margin: 0 0 10px 0;">
+                                Email này được gửi tự động từ hệ thống. Vui lòng không trả lời lại email này.
+                            </p>
+                            <p style="margin: 0;">
+                                © 2026 Kmin Academy. All rights reserved.
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

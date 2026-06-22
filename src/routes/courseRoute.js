@@ -18,7 +18,7 @@ const router = Router();
 
 /// =============== Render view =============== ///
 // /course (GET) => lấy tất cả khóa học
-router.get('/', verifyTokenMiddleware, getAllCourses);
+router.get('/', getAllCourses);
 
 router.get(
   '/manage',
