@@ -28,9 +28,9 @@
     <script>
         // Change connection to http long polling
       const socket = io({
-        auth: {
-          token: 'your-authentication-token' // Replace with your actual token
-        }
+        // auth: {
+        //   token: 'your-authentication-token' // Replace with your actual token
+        // }
       });
       let roomIdOfUser = ''; // Default room for the user
 
@@ -61,7 +61,6 @@
 
       // If user joinned room then hide two buttons and display the room id of user
         socket.on('completed_join_room', (room) => {
-            debugger;
             roomIdOfUser = room; // Update the roomIdOfUser variable when joining a room
             room1Button.style.display = 'none';
             room2Button.style.display = 'none';

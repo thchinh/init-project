@@ -58,28 +58,31 @@ app.use(appRouters);
 
 connectDB();
 
-io.use((socket, next) => {
-  const token = socket.handshake.auth.token;
-  if (!token) {
-    return next(new Error('Authentication error: Token not provided'));
-  }
-  next();
-});
+// io.use((socket, next) => {
+//   const token = socket.handshake.auth.token;
+//   if (!token) {
+//     return next(new Error('Authentication error: Token not provided'));
+//   }
+//   next();
+// });
 
 io.on('connection', (socket) => {
   console.log('a user connected with connection id: ' + socket.id);
 
-  socket.use((packet, next) => {
-    const token = socket.handshake.auth.token;
-    if (!token) {
-      return next(new Error('Authentication error: Token not provided'));
-    }
-    next();
-  });
+  // socket.use((packet, next) => {
+  //   const token = socket.handshake.auth.token;
+  //   if (!token) {
+  //     return next(new Error('Authentication error: Token not provided'));
+  //   }
+  //   next();
+  // });
 
   socket.on('send_message', (msg) => {
     io.to(msg.room).emit('receive_message', msg.message);
   });
+
+  // group 1
+  // group 2
 
   socket.on('start_join_room', (room) => {
     socket.join(room);
