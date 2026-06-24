@@ -12,19 +12,19 @@ import 'dotenv/config';
 import helperHandlebars from './helpers/helperHandlebars.js';
 import cors from 'cors';
 import { generateRefreshToken } from './services/tokenService.js';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+  connectionStateRecovery: {
+    // The session will be invalidated if the client does not reconnect within 2 minutes
+    maxDisconnectionDuration: 2 * 60 * 1000,
+  },
+});
 
-const dirName = path.join(path.resolve(), 'public');
 app.use(express.static(path.join(path.resolve(), 'public')));
-
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false, // Không lưu session lại nếu không có sự thay đổi
-//     saveUninitialized: true, // Lưu session ngay cả khi chưa được khởi tạo
-//   })
-// );
 
 // Config cors
 app.use(cors({ origin: 'http://localhost:3001', credentials: true }));
@@ -57,7 +57,46 @@ app.set('views', './src/views');
 app.use(appRouters);
 
 connectDB();
+
+io.use((socket, next) => {
+  const token = socket.handshake.auth.token;
+  if (!token) {
+    return next(new Error('Authentication error: Token not provided'));
+  }
+  next();
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected with connection id: ' + socket.id);
+
+  socket.use((packet, next) => {
+    const token = socket.handshake.auth.token;
+    if (!token) {
+      return next(new Error('Authentication error: Token not provided'));
+    }
+    next();
+  });
+
+  socket.on('send_message', (msg) => {
+    io.to(msg.room).emit('receive_message', msg.message);
+  });
+
+  socket.on('start_join_room', (room) => {
+    socket.join(room);
+    socket.emit('completed_join_room', room); // Notify the client that they have joined the room
+    console.log(`User with connection id: ${socket.id} joined room: ${room}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected with connection id: ' + socket.id);
+  });
+});
+
+io.on('connection_error', (err) => {
+  console.log(`Connection error: ${err.message}`);
+});
+
 // Khởi động server và lắng nghe kết nối
-app.listen(3000, () => {
-  console.log(`Server đang chạy tại http://localhost:${3000}`);
+server.listen(3000, () => {
+  console.log(`Server đang chạy tại http://localhost:3000`);
 });
