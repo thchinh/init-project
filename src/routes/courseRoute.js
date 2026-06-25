@@ -40,7 +40,7 @@ router.get(
   authorizeMiddleware('admin'),
   showFormUpdateCourse
 );
-router.get('/:id', verifyTokenMiddleware, getCourse);
+router.get('/:id', getCourse);
 
 // =============== Xử lý logic =============== ///
 // /course (POST) => thêm mới khóa học
