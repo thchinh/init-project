@@ -9,4 +9,4 @@ WORKDIR /app
 COPY --from=build /app /app
 EXPOSE 3000
 USER node
-CMD ["node", "index.js"]
+CMD ["node", "src/index.js"]
