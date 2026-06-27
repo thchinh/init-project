@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Debug and Logs
+*.log
+
+# Build outputs and artifacts
+build/
+dist/
+out/
+.cache/
+
+# Environment variables and secrets
+.env
+
+# IDEs and Editors
+.vscode/
+
+# Version control
+.git
+.gitignore
+
+# Docker files (Optional, prevents copying the build instructions into the image)
+Dockerfile
+.dockerignore
