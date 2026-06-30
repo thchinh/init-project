@@ -13,11 +13,12 @@
             <th scope="col">#</th>
             <th scope="col">
                 <form action="" method="get" id="sortForm">
-                    <input hidden type="text" value="{{sortBy}}" name="sortBy">
+                    <input hidden type="text" value="{{sortBy}}" name="sortBy" />
                     <input hidden type="text" value="{{#if (eq sortOrder 'asc')}}desc{{else}}asc{{/if}}"
-                        name="sortOrder">
-                    <input hidden type="text" value="{{searchText}}" name="searchText">
-                    Tên khóa học <i class="bi bi-arrow-{{#if (eq sortOrder 'asc')}}up{{else}}down{{/if}} hover-cusor"
+                        name="sortOrder" />
+                    <input hidden type="text" value="{{searchText}}" name="searchText" />
+                    <span class="hover-cusor">Tên khóa học</span>
+                    <i class="bi bi-arrow-{{#if (eq sortOrder 'asc')}}up{{else}}down{{/if}} hover-cusor"
                         onclick="document.getElementById('sortForm').submit()"></i>
                 </form>
             </th>
