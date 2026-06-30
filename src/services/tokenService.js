@@ -16,4 +16,14 @@ const generateAccessToken = (user) => {
   return token;
 };
 
-export { generateRefreshToken, generateAccessToken };
+const verifyAccessToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return decoded;
+  } catch (error) {
+    console.error('Error verifying access token:', error);
+    return null;
+  }
+};
+
+export { generateRefreshToken, generateAccessToken, verifyAccessToken };
