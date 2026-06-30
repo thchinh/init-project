@@ -1,0 +1,4 @@
+docker có cơ chế
+Với library => build mà không thay đổi gì thì nó sẽ sử dụng cache
+
+Với code thì nó cũng cache => change docker nó build lại 
