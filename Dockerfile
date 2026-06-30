@@ -1,7 +1,7 @@
 FROM node:24-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --only=production
 # RUN apk add curl
 # RUN curl -sSL https://provinces.open-api.vn/api/v1/ -o ./provinces.json
 COPY . .
