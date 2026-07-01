@@ -4,4 +4,7 @@ export default {
     '^.+\\.js$': 'babel-jest',
   },
   setupFiles: ['dotenv/config'], // Globally preloads .env variables
+  environment: {
+    JWT_SECRET: 'tuyqteqwt',
+  },
 };
