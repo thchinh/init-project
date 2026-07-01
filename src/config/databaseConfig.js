@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-var test = 'abc';
-
 const connectDB = async () => {
   try {
     // Cấu hình kết nối chuẩn mực của Mongoose
