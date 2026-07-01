@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // Generate test case for tokenService.js
 
 import * as tokenService from '../src/services/tokenService.js';

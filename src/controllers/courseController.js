@@ -1,4 +1,3 @@
-import path from 'node:path';
 import * as courseModel from '../models/courseModel.js';
 import imageService from '../services/imageService.js';
 
@@ -97,7 +96,7 @@ const createCourse = async (req, res) => {
   }
   const imgName = imageService.saveImage(req.file);
 
-  const newCourse = await courseModel.createCourse(name, description, imgName);
+  await courseModel.createCourse(name, description, imgName);
   res.redirect('/courses/manage');
 };
 

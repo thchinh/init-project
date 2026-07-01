@@ -7,11 +7,9 @@ import appRouters from './routes/index.js';
 import methodOverride from 'method-override';
 import connectDB from './config/databaseConfig.js';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
 import 'dotenv/config';
 import helperHandlebars from './helpers/helperHandlebars.js';
 import cors from 'cors';
-import { generateRefreshToken } from './services/tokenService.js';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
 
@@ -67,8 +65,6 @@ connectDB();
 // });
 
 io.on('connection', (socket) => {
-  console.log('a user connected with connection id: ' + socket.id);
-
   // socket.use((packet, next) => {
   //   const token = socket.handshake.auth.token;
   //   if (!token) {
@@ -87,19 +83,19 @@ io.on('connection', (socket) => {
   socket.on('start_join_room', (room) => {
     socket.join(room);
     socket.emit('completed_join_room', room); // Notify the client that they have joined the room
-    console.log(`User with connection id: ${socket.id} joined room: ${room}`);
+    // console.log(`User with connection id: ${socket.id} joined room: ${room}`);
   });
 
   socket.on('disconnect', () => {
-    console.log('user disconnected with connection id: ' + socket.id);
+    // console.log('user disconnected with connection id: ' + socket.id);
   });
 });
 
-io.on('connection_error', (err) => {
-  console.log(`Connection error: ${err.message}`);
+io.on('connection_error', () => {
+  // console.log(`Connection error: ${err.message}`);
 });
 
 // Khởi động server và lắng nghe kết nối
 server.listen(3000, () => {
-  console.log(`Server đang chạy tại http://localhost:3000`);
+  // console.log(`Server đang chạy tại http://localhost:3000`);
 });

@@ -21,6 +21,7 @@ const verifyAccessToken = (token) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     return decoded;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error verifying access token:', error);
     return null;
   }

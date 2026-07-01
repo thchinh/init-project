@@ -92,14 +92,14 @@ const register = async (req, res) => {
 
     res.send(`Register successful! User ID: ${newUser.id}`);
   } catch (error) {
-    res.status(500).send('Register failed');
+    res.status(500).send(error.message);
   }
 };
 
 const logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
-      return res.status(500).send('Logout failed');
+      return res.status(500).send(err.message);
     }
     res.clearCookie('jwt_token');
     res.send('Logout successful');
