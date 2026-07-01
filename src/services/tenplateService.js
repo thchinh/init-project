@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { create } from 'express-handlebars';
 import path from 'path';
 

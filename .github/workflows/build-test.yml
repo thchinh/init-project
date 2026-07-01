@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-test:
     name: Run Tests and Linters
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # cấp phát 1 ubuntu version latest để chạy job
 
     steps:
       - name: Checkout repository

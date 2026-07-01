@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 const authorizeMiddleware = (requiredRole) => {
@@ -11,6 +10,7 @@ const authorizeMiddleware = (requiredRole) => {
       }
 
       next();
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       return res.status(401).send('Unauthorized: Invalid token');
     }

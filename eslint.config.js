@@ -20,13 +20,13 @@ export default [
       'prefer-const': 'error',
 
       // Catch accidental console remnants
-      'no-console': 'warn',
+      'no-console': 'error',
 
       // Ban the dangerous use of var
       'no-var': 'error',
 
       // Prevent execution blocks with unused references
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error'],
 
       // Mandate semicolon uniformity
       semi: ['error', 'always'],

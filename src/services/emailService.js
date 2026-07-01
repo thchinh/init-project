@@ -27,15 +27,16 @@ const transporter = createTransport({
 const canConnectEmailService = async () => {
   try {
     return await transporter.verify();
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
-    console.log('Lỗi khi kiểm tra kết nối email: ', error);
+    // console.log('Lỗi khi kiểm tra kết nối email: ', error);
     return false;
   }
 };
 
 const sendEmail = async ({ to, subject, html, text }) => {
   if (!(await canConnectEmailService())) {
-    console.log('Không thể kết nối đến dịch vụ email');
+    // console.log('Không thể kết nối đến dịch vụ email');
     return;
   }
 
@@ -48,10 +49,11 @@ const sendEmail = async ({ to, subject, html, text }) => {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Gửi thành công: ' + info.response);
+    transporter.sendMail(mailOptions);
+    // console.log('Gửi thành công: ' + info.response);
+    // eslint-disable-next-line no-unused-vars
   } catch (error) {
-    console.log('Lỗi gửi mail: ', error);
+    // console.log('Lỗi gửi mail: ', error);
   }
 };
 
